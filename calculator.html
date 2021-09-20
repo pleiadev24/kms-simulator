@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1> Data Centre</h1>
+<h2>Generate 160 bits random number B (Big Integer)</h2>
+
+<button type="button" onclick="generate_random_number()">generate random B</button>
+<br/>
+<br/>
+BigInt Decimal: 
+<div id="output"></div>
+<h1> AWS Cloud</h1>
+<h2>Generate 160 bits random number A (Big Integer)</h2>
+
+<button type="button" onclick="generate_random_number_2()">generate random A</button>
+<br/>
+<br/>
+BigInt Decimal: 
+<div id="output2"></div>
+<h1> Data Centre</h1>
+<h2>Generate mod for B</h2>
+
+<button type="button" onclick="compute_mod()">compute g^B mod p</button>
+<br/>
+<br/>
+g^B mod p:
+<div id="output3"></div>
+
+<h1> AWS Cloud </h1>
+<h2>Generate mod for A</h2>
+
+<button type="button" onclick="compute_mod_2()">compute g^A mod p</button>
+<br/>
+<br/>
+g^A mod p:
+<div id="output4"></div>
+
+<h1> Data Centre</h1>
+<h2>send G^B mod p to AWS</h2>
+
+<button type="button" onclick="compute_key_B()">compute common key</button>
+<br/>
+<br/>
+Key: 
+<div id="output5"></div>
+<h1> AWS Cloud</h1>
+<h2>send G^A mod p to Data Center</h2>
+
+<button type="button" onclick="compute_key_A()">compute common key</button>
+<br/>
+<br/>
+Key: 
+<div id="output6"></div>
+
+
+<script src="biginteger.js"></script>
+
+<script type="text/javascript">
+        var base=174068207532402095185811980123523436538604490794561350978495831040599953488455823147851597408940950725307797094915759492368300574252438761037084473467180148876118103083043754985190983472601550494691329488083395492313850000361646482644608492304078721818959999056496097769368017749273708962006689187956744210730;
+        var exponentB;
+        var exponentA;
+        var modulo=178011905478542266528237562450159990145232156369120674273274450314442865788737020770612695252123463079567156784778466449970650770920727857050009668388144034129745221171818506047231150039301079959358067395348717066319802262019714966524135060945913707594956514672855690606794135837542707371727429551343320695239;
+        var resultA;
+        var resultB;
+	
+    function generate_random_number_2(){
+        // display output on the page B
+        exponentB=random_bigInt();
+        document.getElementById('output2').innerHTML = exponentB;
+    }
+    function generate_random_number(){
+        // display output on the page for A
+        exponentA=random_bigInt();
+        document.getElementById('output').innerHTML = exponentA;
+    }
+
+
+    // generate random number
+    // 
+    //     one output: 160 bits random number (bigInt decimal) 
+    //
+    //     generate random number less than 2: 0 or 1
+    //             Math.floor(Math.random() * 2)
+    //
+    function random_bigInt(){	
+
+        var random_number = "";
+        // generate random bit 160 times
+    	for (i = 0; i < 160; i++) {
+            random_number += Math.floor(Math.random() * 2);
+        }
+    	// return Decimal bigInt
+        return bigInt(random_number,2);
+    }
+
+
+    function compute_mod(){	
+        
+        var res = bigInt(base).modPow(exponentB, modulo);
+        document.getElementById('output3').innerHTML = res;
+        resultB=res;
+
+
+}
+function compute_mod_2(){	
+        
+        var res = bigInt(base).modPow(exponentA, modulo);
+        document.getElementById('output4').innerHTML = res;
+        resultA=res;
+}
+
+function compute_key_B(){
+    var res = bigInt(resultA).modPow(exponentB, modulo);
+        document.getElementById('output5').innerHTML = res;
+}
+function compute_key_A(){
+    var res = bigInt(resultB).modPow(exponentA, modulo);
+        document.getElementById('output6').innerHTML = res;
+}
+
+</script>
+
+
+
+</body>
+</html>
